@@ -5,19 +5,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.TextView;
+import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -131,13 +126,23 @@ public class MainActivity extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            //textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            GridView grid = (GridView) rootView.findViewById(R.id.musicGrid);
+            View view = inflater.inflate(R.layout.fragment_main, container, false);
+            ListView list;
+            list = (ListView) view.findViewById(R.id.listView);
+            list.setAdapter(CsvUtilities.getAdapter(view.getContext()));
+            int sectionNum = getArguments().getInt(ARG_SECTION_NUMBER);
+            switch (sectionNum) {
+                case 2:
+                    view = inflater.inflate(R.layout.fragment_add_new, container, false);
+                    break;
+                case 3:
+                    view = inflater.inflate(R.layout.fragment_history, container, false);
+                    break;
+                default:
+                    break;
+            }
 
-
-            return rootView;
+            return view;
         }
 
         @Override

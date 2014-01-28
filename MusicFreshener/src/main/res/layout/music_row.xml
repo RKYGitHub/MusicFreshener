@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="musical genre"
+        android:id="@+id/genre"
+        android:layout_alignRight="@+id/dateLastListened"
+        android:layout_alignEnd="@+id/dateLastListened"
+        android:layout_toRightOf="@+id/rating"
+        android:layout_below="@+id/dateLastListened"
+        android:layout_alignBottom="@+id/artist" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Band"
+        android:id="@+id/artist"
+        android:layout_below="@+id/album"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/rating" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Album"
+        android:id="@+id/album"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/rating" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="#"
+        android:id="@+id/rating"
+        android:layout_toLeftOf="@+id/dateLastListened"
+        android:layout_alignParentTop="true"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:textStyle="bold"
+        android:textSize="35sp"
+        android:gravity="center_vertical"
+        android:layout_alignBottom="@+id/artist" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="10/10/2013"
+        android:id="@+id/dateLastListened"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical" />
+
+</RelativeLayout>

@@ -1,12 +1,15 @@
 package com.rky.musicfreshener;
 
 import android.content.Context;
-import android.database.MatrixCursor;
-import android.widget.CursorAdapter;
-import android.widget.SimpleCursorAdapter;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 /**
- * Created by Robbie on 11/3/13.
+ * Created by RKY on 11/3/13.
  */
 public class CsvUtilities {
 /*
@@ -18,4 +21,15 @@ public class CsvUtilities {
 
     }
 */
+    static MusicAdapter getAdapter(Context context) {
+        CSVReader reader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.music)));
+        List allLines = null;
+        try {
+            allLines = reader.readAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new MusicAdapter(context, R.id.textView, allLines);
+    }
+
 }
