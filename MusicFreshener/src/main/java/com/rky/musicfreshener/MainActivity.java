@@ -126,19 +126,24 @@ public class MainActivity extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
+            // create main list of music rows
             View view = inflater.inflate(R.layout.fragment_main, container, false);
-            ListView list;
-            list = (ListView) view.findViewById(R.id.listView);
+            ListView list = (ListView) view.findViewById(R.id.listView);
             list.setAdapter(CsvUtilities.getAdapter(view.getContext()));
             int sectionNum = getArguments().getInt(ARG_SECTION_NUMBER);
             switch (sectionNum) {
                 case 2:
+                    // TODO implement adding new row
                     view = inflater.inflate(R.layout.fragment_add_new, container, false);
                     break;
                 case 3:
+                    // TODO implement removing filters
                     view = inflater.inflate(R.layout.fragment_history, container, false);
                     break;
                 default:
+                    // assumed to be the main "listen to today" screen
+                    // TODO implement filtering based on date
+                    // TODO implement filtering based on rating
                     break;
             }
 

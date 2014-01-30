@@ -3,7 +3,7 @@ package com.rky.musicfreshener;
 /**
  * Created by RKY on 11/3/13.
  *
- * This is the ordered list of columns in the csv.
+ * This is the ordered list of columns as expected in the csv.
  */
 public enum Column {
     GENRE(0),
