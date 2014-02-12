@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * Created by RKY on 11/3/13.
@@ -21,6 +20,7 @@ public class CsvUtilities {
      * @return the adapter
      */
     static MusicAdapter getAdapter(Context context) {
+        // TODO use external file location or SQLite DB, as resources are unable to be written
         CSVReader reader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.music_big)));
         List allLines = null;
         try {
