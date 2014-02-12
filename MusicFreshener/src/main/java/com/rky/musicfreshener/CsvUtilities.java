@@ -21,7 +21,7 @@ public class CsvUtilities {
      */
     static MusicAdapter getAdapter(Context context) {
         // TODO use external file location or SQLite DB, as resources are unable to be written
-        CSVReader reader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.music_big)));
+        CSVReader reader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.music)));
         List allLines = null;
         try {
             allLines = reader.readAll();
