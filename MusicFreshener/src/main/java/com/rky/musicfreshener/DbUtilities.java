@@ -46,6 +46,11 @@ public class DbUtilities {
     public static Cursor getListenNowCursor(SQLiteDatabase db) {
         int numDaysForArtist = 7; // TODO make # days for artist a setting
         int numDaysForAlbum = 30; // TODO make # days for album a setting
+        numDaysForArtist += 1; // adjusting to show correctly
+        numDaysForAlbum += 1; // adjusting to show correctly
+
+        // TODO make this allow albums by the same name from multiple artists
+        // TODO - currently just filters out all albums by that name in past 30 days
         String whereStatement =
                 COLUMN_NAME_ARTIST + " not in " +
                     "(" +
