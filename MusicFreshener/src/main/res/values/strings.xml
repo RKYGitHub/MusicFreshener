@@ -4,7 +4,7 @@
     <string name="app_name">"Music Freshener"</string>
     <string name="title_section1">Listen To Today</string>
     <string name="title_section2">Add New Music</string>
-    <string name="title_section3">Listening Data</string>
+    <string name="title_section3">Listening History</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
