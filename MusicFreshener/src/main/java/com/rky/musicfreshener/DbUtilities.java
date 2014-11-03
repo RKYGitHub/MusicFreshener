@@ -72,7 +72,7 @@ public class DbUtilities {
                 null, // no args for selection
                 null, // no grouping
                 null, // no having
-                "date(" + MusicEntry.COLUMN_NAME_DATE + ") ASC" // sort by date ascending
+                COLUMN_NAME_RATING + " DESC, date(" + MusicEntry.COLUMN_NAME_DATE + ") ASC" // sort by date ascending
         );
         return cursor;
     }
