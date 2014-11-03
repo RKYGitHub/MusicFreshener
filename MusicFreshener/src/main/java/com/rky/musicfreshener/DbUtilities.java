@@ -94,7 +94,7 @@ public class DbUtilities {
                 null, // no args for selection
                 null, // no grouping
                 null, // no filtering
-                "julianday(" + COLUMN_NAME_DATE + ") DESC" // sort by date descending
+                "date(" + COLUMN_NAME_DATE + ") DESC" // sort by date descending
         );
         return cursor;
     }
