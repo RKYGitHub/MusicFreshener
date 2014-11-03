@@ -13,6 +13,7 @@ public final class MusicContract {
     /* Inner class that defines the table contents */
     public static abstract class MusicEntry implements BaseColumns {
         public static final String TABLE_NAME = "Music";
+        public static final String COLUMN_NAME_ID = "_id";
         public static final String COLUMN_NAME_ARTIST = "artist";
         public static final String COLUMN_NAME_ALBUM = "album";
         public static final String COLUMN_NAME_GENRE = "genre";
