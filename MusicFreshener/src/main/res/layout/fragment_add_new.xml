@@ -6,10 +6,106 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="add some new music!"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="@string/addMusicGenreLabel"
+        android:id="@+id/genreLabel"
+        android:layout_alignParentStart="true"
+        style="@android:style/TextAppearance.DeviceDefault.Large" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addMusicAlbumLabel"
+        android:id="@+id/albumLabel"
+        android:layout_alignParentStart="true"
+        style="@android:style/TextAppearance.DeviceDefault.Large"
+        android:layout_below="@+id/addMusicArtistInput" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addMusicArtistLabel"
+        android:id="@+id/artistLabel"
+        android:layout_toEndOf="@+id/albumLabel"
+        android:layout_alignParentStart="true"
+        style="@android:style/TextAppearance.DeviceDefault.Large"
+        android:layout_below="@+id/addMusicGenreInput" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addMusicRatingLabel"
+        android:id="@+id/ratingLabel"
+        style="@android:style/TextAppearance.DeviceDefault.Large"
+        android:layout_below="@+id/addMusicAlbumInput"
+        android:layout_toStartOf="@+id/addMusicAlbumInput" />
+
+    <TextView
+        style="@android:style/TextAppearance.DeviceDefault.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addMusicDateLabel"
+        android:id="@+id/dateLabel"
+        android:layout_below="@+id/addMusicRatingInput"
+        android:layout_toStartOf="@+id/addMusicAlbumInput" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addMusicGenreInput"
+        android:layout_toEndOf="@+id/genreLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/genreLabel"
+        android:singleLine="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addMusicArtistInput"
+        android:layout_below="@+id/addMusicGenreInput"
+        android:layout_toEndOf="@+id/albumLabel"
+        android:layout_alignEnd="@+id/addMusicGenreInput"
+        android:layout_toRightOf="@+id/artistLabel"
+        android:singleLine="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addMusicAlbumInput"
+        android:layout_below="@+id/addMusicArtistInput"
+        android:layout_toEndOf="@+id/albumLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/albumLabel"
+        android:singleLine="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/addMusicRatingInput"
+        android:layout_below="@+id/addMusicAlbumInput"
+        android:layout_alignStart="@+id/addMusicAlbumInput"
+        android:layout_toRightOf="@+id/ratingLabel"
+        android:singleLine="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/addMusicDateInput"
+        android:layout_below="@+id/addMusicRatingInput"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/dateLabel"
+        android:singleLine="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addMusicButtonText"
+        android:id="@+id/addMusicSubmitNew"
+        android:onClick="addMusic"
+        android:layout_below="@+id/addMusicDateInput"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

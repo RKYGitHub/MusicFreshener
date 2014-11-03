@@ -1,6 +1,8 @@
 package com.rky.musicfreshener;
 
 import android.app.Activity;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -12,7 +14,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -99,6 +109,29 @@ public class MainActivity extends ActionBarActivity
     }
 
     /**
+     * Adds a new entry into the DB for the text present when the button was clicked.
+     * @param button the add button that was clicked to get here
+     */
+    public void addMusic (View button) {
+        Context context = button.getContext();
+
+        // get info from fields
+        String genre = getTextFromEditText(R.id.addMusicGenreInput);
+        String artist = getTextFromEditText(R.id.addMusicArtistInput);
+        String album = getTextFromEditText(R.id.addMusicAlbumInput);
+        String rating = getTextFromEditText(R.id.addMusicRatingInput);
+        String date = getTextFromEditText(R.id.addMusicDateInput);
+        DbUtilities.insertMusic(context, genre, artist, album, rating, date);
+
+        // display a toast informing the user it was added
+        Toast.makeText(context, "Added!", Toast.LENGTH_SHORT).show();
+    }
+
+    public String getTextFromEditText(int fieldId) {
+        return ((EditText) findViewById(fieldId)).getText().toString();
+    }
+
+    /**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
@@ -124,26 +157,70 @@ public class MainActivity extends ActionBarActivity
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+        public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                final Bundle savedInstanceState) {
+            final int sectionNum = getArguments().getInt(ARG_SECTION_NUMBER);
             // create main list of music rows
             View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+            //setup DB
+            MusicDbHelper dbHelper = new MusicDbHelper(view.getContext());
+            final SQLiteDatabase dbReader = dbHelper.getReadableDatabase();
+            final SimpleCursorAdapter adapter = DbUtilities.getInitialAdapter(view.getContext());
+
+            // set list of rows
             ListView list = (ListView) view.findViewById(R.id.listView);
-            list.setAdapter(CsvUtilities.getAdapter(view.getContext()));
-            int sectionNum = getArguments().getInt(ARG_SECTION_NUMBER);
+            list.setAdapter(adapter);
+            list.setLongClickable(true);
+            list.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Context context = view.getContext();
+                    // get info from fields
+                    String genre = ((TextView) view.findViewById(R.id.rowGenre)).getText().toString();
+                    String artist = ((TextView) view.findViewById(R.id.rowArtist)).getText().toString();
+                    String album = ((TextView) view.findViewById(R.id.rowAlbum)).getText().toString();
+                    String rating = ((TextView) view.findViewById(R.id.rowRating)).getText().toString();
+                    String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                    DbUtilities.insertMusic(context, genre, artist, album, rating, date);
+
+                    // display a toast informing the user it was added
+                    Toast.makeText(context, "Added!", Toast.LENGTH_SHORT).show();
+
+                    // update view
+                    switch (sectionNum) {
+                        case 1:// listen to today
+                            adapter.swapCursor(DbUtilities.getListenNowCursor(dbReader));
+                            break;
+                        case 3: // history
+                            adapter.swapCursor(DbUtilities.getHistoryCursor(dbReader));
+                            break;
+                        default:
+                            view = inflater.inflate(R.layout.whoops, container, false);
+                            break;
+                    }
+
+                    return false;
+                }
+            });
+
+            // set view per section
             switch (sectionNum) {
-                case 2:
-                    // TODO implement adding new row
-                    view = inflater.inflate(R.layout.fragment_add_new, container, false);
+                case 1:// listen to today
+                    adapter.swapCursor(DbUtilities.getListenNowCursor(dbReader));
                     break;
-                case 3:
-                    // TODO implement removing filters
-                    view = inflater.inflate(R.layout.fragment_history, container, false);
+                case 2: // add new
+                    view = inflater.inflate(R.layout.fragment_add_new, container, false);
+
+                    // set default date as today
+                    EditText dateField = (EditText) view.findViewById(R.id.addMusicDateInput);
+                    dateField.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    break;
+                case 3: // history
+                    adapter.swapCursor(DbUtilities.getHistoryCursor(dbReader));
                     break;
                 default:
-                    // assumed to be the main "listen to today" screen
-                    // TODO implement filtering based on date
-                    // TODO implement filtering based on rating
+                    view = inflater.inflate(R.layout.whoops, container, false);
                     break;
             }
 
