@@ -44,35 +44,39 @@ public class DbUtilities {
      * @return a cursor for the Listen Now screen
      */
     public static Cursor getListenNowCursor(SQLiteDatabase db) {
-        int numDaysForArtist = 7; // TODO make # days for artist a setting
-        int numDaysForAlbum = 30; // TODO make # days for album a setting
-        numDaysForArtist += 1; // adjusting to show correctly
-        numDaysForAlbum += 1; // adjusting to show correctly
+        int daysArtist = 7; // TODO make # days for artist a setting
+        int daysAlbum = 30; // TODO make # days for album a setting
+        daysArtist += 1; // adjusting to show correctly
+        daysAlbum += 1; // adjusting to show correctly
 
-        // TODO make this allow albums by the same name from multiple artists
-        // TODO - currently just filters out all albums by that name in past 30 days
-        String whereStatement =
-                COLUMN_NAME_ARTIST + " not in " +
-                    "(" +
-                        "select distinct " + COLUMN_NAME_ARTIST +
-                        " from " + TABLE_NAME +
-                        " where (julianday('now') - julianday(" + COLUMN_NAME_DATE + ")) < " + numDaysForArtist +
-                    ")" +
-                " and " + COLUMN_NAME_ALBUM + " not in " +
-                    "(" +
-                        "select distinct " + COLUMN_NAME_ALBUM +
-                        " from " + TABLE_NAME +
-                        " where (julianday('now') - julianday(" + COLUMN_NAME_DATE + ")) < " + numDaysForAlbum +
-                    ")";
+        String table = TABLE_NAME + " m";
+        String[] columns = {COLUMN_NAME_ID, COLUMN_NAME_GENRE, COLUMN_NAME_ARTIST, COLUMN_NAME_ALBUM,
+            "max(" + COLUMN_NAME_RATING + ") as 'rating'",
+            "max(" + COLUMN_NAME_DATE + ") as 'date'"};
+        String groupingClause = COLUMN_NAME_ARTIST + ", " + COLUMN_NAME_ALBUM;
+        String havingClause =
+            COLUMN_NAME_ARTIST + " not in " +
+                "(" +
+                    "select distinct " + COLUMN_NAME_ARTIST +
+                    " from " + TABLE_NAME + " mArtist" +
+                    " where (julianday('now') - julianday(mArtist." + COLUMN_NAME_DATE + ")) < " + daysArtist +
+                ")" +
+            " and " + COLUMN_NAME_ALBUM + " not in " +
+                "(" +
+                    "select distinct " + COLUMN_NAME_ALBUM +
+                    " from " + TABLE_NAME + " mAlbum" +
+                    " where (julianday('now') - julianday(mAlbum." + COLUMN_NAME_DATE + ")) < " + daysAlbum +
+                    " and mAlbum." + COLUMN_NAME_ARTIST + " = m." + COLUMN_NAME_ARTIST +
+                ")";
 
         Cursor cursor = db.query(
-                MusicEntry.TABLE_NAME,
-                null, // all columns
-                whereStatement,
+                table,
+                columns, // all columns
+                null, // no WHERE
                 null, // no args for selection
-                null, // no grouping
-                null, // no having
-                COLUMN_NAME_RATING + " DESC, date(" + MusicEntry.COLUMN_NAME_DATE + ") ASC" // sort by date ascending
+                groupingClause, // no grouping
+                havingClause, // no having
+                COLUMN_NAME_RATING + " DESC, date(" + COLUMN_NAME_DATE + ") ASC"
         );
         return cursor;
     }
@@ -90,7 +94,7 @@ public class DbUtilities {
                 null, // no args for selection
                 null, // no grouping
                 null, // no filtering
-                "date(" + MusicEntry.COLUMN_NAME_DATE + ") DESC" // sort by date descending
+                "julianday(" + COLUMN_NAME_DATE + ") DESC" // sort by date descending
         );
         return cursor;
     }
@@ -102,11 +106,11 @@ public class DbUtilities {
      */
     public static SimpleCursorAdapter getInitialAdapter (Context context) {
         String[] columns = {
-                MusicEntry.COLUMN_NAME_GENRE,
-                MusicEntry.COLUMN_NAME_ARTIST,
-                MusicEntry.COLUMN_NAME_ALBUM,
-                MusicEntry.COLUMN_NAME_RATING,
-                MusicEntry.COLUMN_NAME_DATE
+                COLUMN_NAME_GENRE,
+                COLUMN_NAME_ARTIST,
+                COLUMN_NAME_ALBUM,
+                COLUMN_NAME_RATING,
+                COLUMN_NAME_DATE
         };
         int[] to = {
                 R.id.rowGenre,
