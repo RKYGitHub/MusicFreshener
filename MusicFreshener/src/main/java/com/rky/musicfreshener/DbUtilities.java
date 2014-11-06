@@ -46,8 +46,6 @@ public class DbUtilities {
     public static Cursor getListenNowCursor(SQLiteDatabase db) {
         int daysArtist = 7; // TODO make # days for artist a setting
         int daysAlbum = 30; // TODO make # days for album a setting
-        daysArtist += 1; // adjusting to show correctly
-        daysAlbum += 1; // adjusting to show correctly
 
         String table = TABLE_NAME + " m";
         String[] columns = {COLUMN_NAME_ID, COLUMN_NAME_GENRE, COLUMN_NAME_ARTIST, COLUMN_NAME_ALBUM,
