@@ -53,18 +53,18 @@ public class DbUtilities {
             "max(" + COLUMN_NAME_DATE + ") as 'date'"};
         String groupingClause = COLUMN_NAME_ARTIST + ", " + COLUMN_NAME_ALBUM;
         String havingClause =
-            "lower(" + COLUMN_NAME_ARTIST + ") not in " +
+            "trim(lower(" + COLUMN_NAME_ARTIST + ")) not in " +
                 "(" +
-                    "select distinct lower(" + COLUMN_NAME_ARTIST + ")" +
+                    "select distinct trim(lower(" + COLUMN_NAME_ARTIST + "))" +
                     " from " + TABLE_NAME + " mArtist" +
                     " where (julianday('now') - julianday(mArtist." + COLUMN_NAME_DATE + ")) < " + daysArtist +
                 ")" +
-            " and lower(" + COLUMN_NAME_ALBUM + ") not in " +
+            " and trim(lower(" + COLUMN_NAME_ALBUM + ")) not in " +
                 "(" +
-                    "select distinct lower(" + COLUMN_NAME_ALBUM + ")" +
+                    "select distinct trim(lower(" + COLUMN_NAME_ALBUM + "))" +
                     " from " + TABLE_NAME + " mAlbum" +
                     " where (julianday('now') - julianday(mAlbum." + COLUMN_NAME_DATE + ")) < " + daysAlbum +
-                    " and lower(mAlbum." + COLUMN_NAME_ARTIST + ") = lower(m." + COLUMN_NAME_ARTIST + ")" +
+                    " and trim(lower(mAlbum." + COLUMN_NAME_ARTIST + ")) = trim(lower(m." + COLUMN_NAME_ARTIST + "))" +
                 ")";
 
         Cursor cursor = db.query(
